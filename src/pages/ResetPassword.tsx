@@ -1,3 +1,4 @@
+import Title from "antd/es/typography/Title";
 import { ChangeEvent, FC, useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
@@ -9,10 +10,14 @@ const ResetPasswordPage: FC = () => {
   const [email, setEmail] = useState<string>("");
   const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
-  useEffect(() => {
-    if (loading) return;
-    if (user) navigate("/auth/login");
-  }, [user, loading]);
+  
+  if (loading) {
+    return (
+      <Title className="flex-center" style={{height: "80vh"}}>Loading...</Title>
+    )
+  }
+
+  if (user) navigate("/");
 
   const onSubmit = (): void => {
     sendPasswordReset(email)

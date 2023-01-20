@@ -1,15 +1,25 @@
 import Title from "antd/es/typography/Title";
 import { ChangeEvent, FC, useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 
 import RegisterForm from "../../components/templates/RegisterForm";
-import { registerWithEmailAndPassword } from "../../firebase";
+import { auth, registerWithEmailAndPassword } from "../../firebase";
 
 const RegisterPage: FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [name, setName] = useState<string>("");
+  const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
+
+  if (loading) {
+    return (
+      <Title className="flex-center" style={{height: "80vh"}}>Loading...</Title>
+    )
+  }
+
+  if (user) navigate("/");
 
   const onSubmit = (): void => {
     registerWithEmailAndPassword(name, email, password);

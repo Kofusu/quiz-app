@@ -11,9 +11,13 @@ const LoginPage: FC = () => {
   const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (user) navigate("/");
-  }, []);
+  if (loading) {
+    return (
+      <Title className="flex-center" style={{height: "80vh"}}>Loading...</Title>
+    )
+  }
+
+  if (user) navigate("/");
 
   const onSubmit = (): void => {
     logInWithEmailAndPassword(email, password);

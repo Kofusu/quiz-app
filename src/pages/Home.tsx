@@ -8,6 +8,12 @@ import { auth } from "../firebase"
 
 const Home: FC = () => {
   const [user, loading, error] = useAuthState(auth)
+
+  if (loading) {
+    return (
+      <Title className="flex-center" style={{height: "80vh"}}>Loading...</Title>
+    )
+  }
   return (
     <main>
       <Space size="large" style={{height: "75vh"}} className="flex-center" direction="vertical">
