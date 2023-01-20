@@ -42,7 +42,11 @@ const LoginForm: FC<Props> = ({
 
       <Form.Item>
         <Space size="large">
-          <Button type="link"><Link to="/auth/register">Dont Have Account?</Link></Button>
+            <Link to="/auth/register">
+          <Button type="link">
+              Dont Have Account?
+              </Button>
+              </Link>
           <Link to="/reset-password">Forgot Password</Link>
         </Space>
       </Form.Item>

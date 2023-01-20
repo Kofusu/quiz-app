@@ -13,22 +13,24 @@ const HeaderNav: FC = () => {
   return (
     <Layout>
       <Header>
-        <h1 style={{display: "inline", margin: "auto"}}><Link to="/">Home</Link></h1>
+        <h1 style={{ display: "inline", margin: "auto" }}>
+          <Link to="/">Home</Link>
+        </h1>
         {user ? (
-          <Space style={{float: "right"}}>
+          <Space style={{ float: "right" }}>
             <span>Logged in as {user.email}</span>
-            <Button type="dashed">
-              <Link to="/auth/logout">Logout</Link>
-            </Button>
+            <Link to="/auth/logout">
+              <Button type="dashed">Logout</Button>
+            </Link>
           </Space>
         ) : (
-          <Space  style={{float: "right"}}>
-            <Button type="dashed">
-              <Link to="/auth/login">Login</Link>
-            </Button>
-            <Button type="dashed">
-              <Link to="/auth/register">Register</Link>
-            </Button>
+          <Space style={{ float: "right" }}>
+            <Link to="/auth/login">
+              <Button type="dashed">Login</Button>
+            </Link>
+            <Link to="/auth/register">
+              <Button type="dashed">Register</Button>
+            </Link>
           </Space>
         )}
       </Header>

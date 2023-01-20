@@ -51,7 +51,11 @@ const RegisterForm: FC<Props> = ({
 
       <Form.Item>
         <Space size="large">
-          <Button type="link"><Link to="/auth/login">Already Have Account?</Link></Button>
+            <Link to="/auth/login">
+          <Button type="link">
+              Already Have Account?
+              </Button>
+              </Link>
           <Link to="/reset-password">Forgot Password</Link>
         </Space>
       </Form.Item>

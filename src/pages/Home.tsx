@@ -13,7 +13,7 @@ const Home: FC = () => {
       <Space size="large" style={{height: "75vh"}} className="flex-center" direction="vertical">
         <Title style={{textAlign: "center"}} >Welcome to Quiz App</Title>
         <Space>
-          <Button type="primary"><Link to={user ? "/" : "/auth/login"}>{"Get Started  =>"}</Link></Button>
+        <Link to={user ? "/question" : "/auth/login"}><Button type="primary">{"Get Started  =>"}</Button></Link>
         </Space>
       </Space>
     </main>
