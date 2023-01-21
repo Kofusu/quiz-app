@@ -56,7 +56,7 @@ const Result: FC = () => {
             );
           })}
         </Row>
-        <Button onClick={finish} block type="primary">Retry</Button>
+        <Button size="large" onClick={finish} block type="primary">Retry</Button>
       </Space>
     </main>
   );
