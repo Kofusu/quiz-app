@@ -15,7 +15,7 @@ const QuizContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
     Array.from(Array(10).fill({ question: "", correctAnswer: "", answer: "" }))
   );
 
-  const fetchQuestion = () => {
+  const fetchQuestion = async () => {
     refresh();
     fetchData();
   };

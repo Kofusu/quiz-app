@@ -4,16 +4,19 @@ import { FC, useContext, useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Link, useNavigate } from "react-router-dom";
 import { QuizContext } from "../../context/quiz-context";
+import { TimerContext } from "../../context/timer-context";
 import { auth } from "../../firebase";
 
 const Question: FC = () => {
   const [user, loading, error] = useAuthState(auth)
   const { fetchQuestion, refreshGrade }: any = useContext(QuizContext)
+  const { resetTimer } = useContext(TimerContext)
   const navigate = useNavigate();
 
   const playHandler = () => {
     fetchQuestion()
     refreshGrade()
+    resetTimer()
   }
 
   if (loading) {
@@ -29,7 +32,7 @@ const Question: FC = () => {
       <Space size="large" style={{height: "75vh"}} className="flex-center" direction="vertical">
         <div>
           <Title style={{textAlign: "center"}} >Wanna Play a quiz?</Title>
-          <Title level={4} style={{textAlign: "center"}} >You need to answers 10 Question!</Title>
+          <Title level={4} style={{textAlign: "center"}} >You need to answers 10 Question in 1 Minutes!</Title>
         </div>
         <Space>
           <Link to="/"><Button type="dashed">cancel</Button></Link>

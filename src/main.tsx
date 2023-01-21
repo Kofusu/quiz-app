@@ -6,6 +6,7 @@ import { ConfigProvider, theme } from "antd";
 import App from "./App";
 import "./index.css";
 import QuizContextProvider from "./context/quiz-context";
+import TimerContextProvider from "./context/timer-context";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
@@ -18,11 +19,13 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
         },
       }}
     >
-      <QuizContextProvider>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </QuizContextProvider>
+      <TimerContextProvider>
+        <QuizContextProvider>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </QuizContextProvider>
+      </TimerContextProvider>
     </ConfigProvider>
   </React.StrictMode>
 );
