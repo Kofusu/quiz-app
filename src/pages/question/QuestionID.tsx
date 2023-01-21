@@ -1,4 +1,4 @@
-import { Button, Form, Radio, RadioChangeEvent, Space } from "antd";
+import { Button, Radio, RadioChangeEvent, Space } from "antd";
 import ButtonGroup from "antd/es/button/button-group";
 import Paragraph from "antd/es/typography/Paragraph";
 import Title from "antd/es/typography/Title";
@@ -6,6 +6,7 @@ import { FC, useContext, useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate, useParams } from "react-router-dom";
 import { QuizContext } from "../../context/quiz-context";
+import { TimerContext } from "../../context/timer-context";
 
 import { auth } from "../../firebase";
 
@@ -14,6 +15,7 @@ const QuestionID: FC = () => {
 
   const [user, loading, error] = useAuthState(auth);
   const { question, fetchQuestion, gradeSet, grades }: any = useContext(QuizContext)
+  const { timer, min1Sec } = useContext(TimerContext)
   const { id }: any = useParams();
   const navigate = useNavigate();
 
@@ -21,12 +23,14 @@ const QuestionID: FC = () => {
   const pageGrades = grades?.find((item: any) => item.qNum === +id) || 1
 
   useEffect(() => {
-    if (loading || !question) fetchQuestion()
-  }, [])
-
-  useEffect(() => {
-    if (loading || !question) fetchQuestion()
+    if (loading || !question) navigate("/question")
     setAnswer(pageGrades.answer)
+    let intervalTimer = setInterval(() => {
+      min1Sec()
+    }, 1000)
+    return () => {
+      clearInterval(intervalTimer)
+    }
   }, [id])
 
   const radioChangeHandler = (e: RadioChangeEvent) => {
@@ -54,8 +58,15 @@ const QuestionID: FC = () => {
 
   if (!user) navigate("/auth/login");
 
+  if (timer <= 0) {
+    navigate("/question/result")
+  }
+
   return (
     <main>
+      <Title level={4} className="flex-center">
+        Time Left: {timer} Sec
+      </Title>
       <Title level={4} className="flex-center">
         {pageQuestion?.category} - {pageQuestion?.difficulty}
       </Title>

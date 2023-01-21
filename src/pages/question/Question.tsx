@@ -29,7 +29,7 @@ const Question: FC = () => {
       <Space size="large" style={{height: "75vh"}} className="flex-center" direction="vertical">
         <div>
           <Title style={{textAlign: "center"}} >Wanna Play a quiz?</Title>
-          <Title level={4} style={{textAlign: "center"}} >You need to answers 10 Question!</Title>
+          <Title level={4} style={{textAlign: "center"}} >You need to answers 10 Question in 1 Minutes!</Title>
         </div>
         <Space>
           <Link to="/"><Button type="dashed">cancel</Button></Link>

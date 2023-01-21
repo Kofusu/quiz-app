@@ -5,44 +5,58 @@ import Title from "antd/es/typography/Title";
 import { FC, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { QuizContext } from "../../context/quiz-context";
+import { TimerContext } from "../../context/timer-context";
 
 const Result: FC = () => {
-  const { fetchQuestion, grades, refreshGrade }: any = useContext(QuizContext);
+  const { question, fetchQuestion, grades, refreshGrade }: any =
+    useContext(QuizContext);
+  const { resetTimer }: any = useContext(TimerContext);
   const navigate = useNavigate();
 
-  const grading = grades?.filter((grade: any) => grade.answer === grade.correctAnswer).length
+  const grading = grades?.filter(
+    (grade: any) => grade.answer === grade.correctAnswer && grade.answer !== ""
+  ).length;
 
   const finish = () => {
-    fetchQuestion()
-    refreshGrade()
-    navigate("/question")
-  }
+    fetchQuestion();
+    refreshGrade();
+    resetTimer();
+    navigate("/question");
+  };
 
   return (
     <main>
-      <Space direction="vertical" size="large" style={{padding: "1rem"}}>
-          <Title className="flex-center">
-            Results: {grading}/{grades?.length}
-          </Title>
+      <Space direction="vertical" size="large" style={{ padding: "1rem" }}>
+        <Title className="flex-center">
+          Results: {grading}/{grades?.length}
+        </Title>
         <Row gutter={[0, 16]}>
-          {grades?.map((grade: any) => {
-            return grade.answer !== "" ? (
+          {grades?.map((grade: any, i: number) => {
+            return (
               <Col span={24}>
                 <Card
-                  title={`${grade.qNum}. ${grade.question}`}
+                  title={`${i + 1}. ${question[i]?.question}`}
                   style={{ width: "100%" }}
                 >
                   <Header></Header>
                   <Space>
-                    <span
-                      style={
-                        grade.answer !== grade.correctAnswer
-                          ? { color: "red" }
-                          : { color: "green" }
-                      }
-                    >
-                      Answer: {grade.answer}
-                    </span>
+                    {grade.answer ? (
+                      <span
+                        style={
+                          grade.answer === grade.correctAnswer
+                            ? { color: "green" }
+                            : { color: "red" }
+                        }
+                      >
+                        Answer: {grade.answer || "-"}
+                      </span>
+                    ) : (
+                      <span
+                        style={{ color: "red" }}
+                      >
+                        Not answered
+                      </span>
+                    )}
                     {grade.answer !== grade.correctAnswer && (
                       <span style={{ color: "green" }}>
                         CorrectAnswer: {grade.correctAnswer}
@@ -51,12 +65,12 @@ const Result: FC = () => {
                   </Space>
                 </Card>
               </Col>
-            ) : (
-              <></>
             );
           })}
         </Row>
-        <Button size="large" onClick={finish} block type="primary">Retry</Button>
+        <Button size="large" onClick={finish} block type="primary">
+          Retry
+        </Button>
       </Space>
     </main>
   );
