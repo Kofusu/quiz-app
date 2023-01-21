@@ -4,16 +4,19 @@ import { FC, useContext, useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Link, useNavigate } from "react-router-dom";
 import { QuizContext } from "../../context/quiz-context";
+import { TimerContext } from "../../context/timer-context";
 import { auth } from "../../firebase";
 
 const Question: FC = () => {
   const [user, loading, error] = useAuthState(auth)
   const { fetchQuestion, refreshGrade }: any = useContext(QuizContext)
+  const { resetTimer } = useContext(TimerContext)
   const navigate = useNavigate();
 
   const playHandler = () => {
     fetchQuestion()
     refreshGrade()
+    resetTimer()
   }
 
   if (loading) {
