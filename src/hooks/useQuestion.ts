@@ -2,26 +2,24 @@ import { useCallback, useEffect, useState } from "react";
 
 const useQuestion = () => {
   const AMOUNT = 10;
-  const CATEGORY = 9;
-  const DIFFICULTY = "easy";
-  const url = `https://opentdb.com/api.php?amount=${AMOUNT}&category=${CATEGORY}&difficulty=${DIFFICULTY}`;
-  const [question, setQuestion] = useState<any>("");
+  const url = `https://opentdb.com/api.php?amount=${AMOUNT}`;
+  const [question, setQuestion] = useState<any>([]);
 
-  const fetchData = useCallback(async () => {
+  const fetchDatas = useCallback(async () => {
     const res = await fetch(url)
     const data = await res.json()
     setQuestion(data.results)
   }, [setQuestion])
 
-  useEffect(() => {
-    fetchData()
-  }, [])
-
-  const refreshQuestion = () => {
-    fetchData()
+  const fetchData = () => {
+    fetchDatas()
   }
 
-  return [question, refreshQuestion]
+  const refresh = () => {
+    setQuestion((prev: any) => prev)
+  }
+
+  return {question, fetchData, refresh}
 };
 
 export default useQuestion;

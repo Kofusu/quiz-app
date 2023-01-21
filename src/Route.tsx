@@ -9,6 +9,7 @@ import ResetPasswordPage from "./pages/ResetPassword";
 import Logout from "./pages/auth/Logout";
 import Question from "./pages/question/Question";
 import QuestionID from "./pages/question/QuestionID";
+import Result from "./pages/question/Result";
 
 const AppRoute: FC = () => {
   return (
@@ -22,6 +23,7 @@ const AppRoute: FC = () => {
       </Route>
       <Route path="/question">
         <Route index element={<Question />} />
+        <Route path="result" element={<Result />} />
         <Route path=":id" element={<QuestionID />} />
       </Route>
       <Route path="*" element={<PageNotFound />} />

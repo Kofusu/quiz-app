@@ -4,28 +4,49 @@ import useQuestion from "../hooks/useQuestion";
 export const QuizContext = createContext({
   question: [],
   grades: [],
-  refreshQuestion: () => {},
-  addGrade: (grade: boolean) => {}
-})
+  fetchQuestion: () => {},
+  refreshGrade: () => {},
+  gradeSet: (question:string, correctAnswer: string, answer: string, qNum: number) => {},
+});
 
-const QuizContextProvider: FC<{children: ReactNode}> = ({children}) => {
-  const [question, refresh] = useQuestion()
-  const [grades, setGrade] = useState<any>([])
+const QuizContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
+  const {question, fetchData, refresh} = useQuestion();
+  const [grades, setGrades] = useState<any>(
+    Array.from(Array(10).fill({ question: "", correctAnswer: "", answer: "" }))
+  );
 
-  const refreshQuestion = () => {
-    refresh()
-    setGrade([])
+  const fetchQuestion = () => {
+    refresh();
+    fetchData();
+  };
+
+  const refreshGrade = () => {
+    setGrades(Array.from(Array(10).fill({ question: "", correctAnswer: "", answer: "" })))
   }
-  const addGrade = (grade: boolean) => {
-    refresh()
-    setGrade((previousGrade: []) => [...previousGrade, grade])
-  }
+
+  const gradeSet = (question: string, correctAnswer: string, answer: string, qNum: number) => {
+    setGrades((prevVal: any[]) => {
+      return prevVal.map((item, i) => {
+        if (i === qNum - 1) {
+          return {
+            question,
+            correctAnswer, 
+            answer, 
+            qNum
+          }
+        }
+        return item
+      });
+    });
+  };
 
   return (
-    <QuizContext.Provider value={{question, grades, refreshQuestion, addGrade}}>
+    <QuizContext.Provider
+      value={{ question, grades, fetchQuestion, gradeSet, refreshGrade }}
+    >
       {children}
     </QuizContext.Provider>
-  )
-}
+  );
+};
 
-export default QuizContextProvider
+export default QuizContextProvider;
